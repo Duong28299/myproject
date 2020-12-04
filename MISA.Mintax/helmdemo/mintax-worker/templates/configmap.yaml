@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "worker.fullname" .}}-configmap
+data:
+  appsettings.json: |
+    {
+      "Logging": {
+        "LogLevel": {
+          "Default": "Information",
+          "Microsoft": "Warning",
+          "Microsoft.Hosting.Lifetime": "Information"
+        }
+      },
+      "ConnectionStrings": {
+        "MintaxConnection": "server=mintax-worker-database;port=3306;database=misa_workermintax_demo;user=root;password=misa@2020;CharSet=utf8"
+      },
+      "AllowedHosts": "*"
+    }

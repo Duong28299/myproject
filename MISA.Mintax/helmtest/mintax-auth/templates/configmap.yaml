@@ -1,0 +1,125 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "mintax-auth.fullname" . }}-configmap
+data:
+  nlog.config: |-
+    <?xml version="1.0"?>
+    <nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          autoReload="true"
+          internalLogLevel="Trace">
+
+      <extensions>
+        <add assembly="NLog.Web.AspNetCore"/>
+        <add assembly="NLog.Targets.ElasticSearch"/>
+      </extensions>
+      <variable name="token" value="Basic bWlzYTpNaXNhQDIwMTk=" />
+      <variable name="app_id" value="misa_mintax"/>
+      <variable name="system_id" value="misa_mintax_auth" />
+      <targets async="true">
+        <target name="allfile" xsi:type="File"
+                fileName="${basedir}/logs/misa_mintax_auth/${date:format=ddMMyyyy}.log"
+                encoding="utf-8"
+                layout="[${longdate}][${machinename}][${level}] ${message} ${exception}" />
+        <target name="ElasticSearch" xsi:type="BufferingWrapper" flushTimeout="5000">
+        <target xsi:type="ElasticSearch"/></target>
+        <target name="elk"
+             xsi:type="WebService"
+             url="http://testlogapi.misa.local"
+             encoding="UTF-8"
+             protocol="JsonPost"
+             preAuthenticate="True">
+          <header name='Authorization' layout='${token}'/>
+          <parameter name="app_id" type="System.String" layout="${app_id}" />
+          <parameter name="system_id" type="System.String" layout="${system_id}" />
+          <parameter name="company_code" type="System.String" layout="${event-properties:item=CompanyCode}" />
+          <parameter name="user_name" type="System.String" layout="${event-properties:item=UserName}" />
+          <parameter name="message" type="System.String" layout="${message}" />
+          <parameter name="level" type="System.String" layout="${level}" />
+          <parameter name="logger" type="System.String" layout="${logger}" />
+          <parameter name="machine_name" type="System.String" layout="${machinename}" />
+          <parameter name="iis-site-name" type="System.String" layout="${iis-site-name}" />
+        </target>
+      </targets>
+      <rules>
+        <!--All logs, including from Microsoft-->
+        <logger name="*" minlevel="Debug" writeTo="allfile" />
+        <logger name="*" minlevel="Debug" writeTo="elk"/>
+        <!--Skip Microsoft logs and so log only own logs-->
+        <logger name="Microsoft.*" minlevel="Trace" writeTo="blackhole" final="true" />
+        <logger name="*" minlevel="Trace" writeTo="ownFile-web" />
+      </rules>
+    </nlog>
+  appsettings.json: |-
+    {
+        "ConnectionStrings": {
+            "DefaultConnection": "server=mintax-auth-mariadb;port=3306;database=misa_authmintax_development;user=root;password=misa@2020;CharSet=utf8"
+        },
+        "Appsettings": {
+            "InitSetup": {
+                "DatabaseSetup": "",
+                "CreateAndSeed": true
+            },
+            //Cấu hình token
+            "TokenConfigs": {
+                "PrivateKey": "configs/keys/testmintax_privatekey.xml",
+                "PublicKey": "configs/keys/testmintax_publickey.xml",
+                "ExpireIn": "86400",
+                "Issuer": "http://mintaxauth.misa.com.vn",
+                "Audience": "http://mintaxauth.misa.com.vn"
+            },
+            "LogConfigs": {
+                //Danh sách các Thuộc tính chứa thông tin nhẹ cảm, không được ghi log
+                "UnLogSensitiveExParams": "",
+                "PathLogConfig": "NLog.config"
+
+            },
+            //Thông tin cấu hình nối redis cache
+            "RedisCacheConfig": {
+                "Host": "10.0.6.62:6379",
+                "InstanceName": "MISAMintax",
+                //Thời gian cache tồn tại (đv: giây)
+                "ExpiresIn": 43200
+            },
+            //Cấu hình gọi service nội bộ mintax
+            "mintaxAmisConnectConfig": {
+              "Url": "http://mintax-amisconnector/amisconnector"
+            },
+            //Cấu hình kết nối AMIS Flatform
+            "AmisConfigs": {
+                "IsCheckOffline":  true,
+                "ClientId": "327d19ed-6e0a-486e-8733-87bd82d5c794",
+                "ClientSecret": "N1UmccCVDGh2mXQMHCtcIZhHGIqnULoeGvk5RfMwX/Q=",
+                "AmisUrl": "http://test-k8s-master-01.rdp.local:30573"
+            }
+        },
+        "Logging": {
+            "LogLevel": {
+                "Default": "Information",
+                "Microsoft": "Warning",
+                "Microsoft.Hosting.Lifetime": "Information"
+            }
+        },
+        "AllowedHosts": "*"
+    }
+  testmintax_privatekey.xml: |-
+    <RSAKeyValue>
+        <Modulus>jzJ2MXnYqGNv2gFv2aZCMLy6uivY85Jpn0z8zUa1mId7M1aVAYgfXwLo+H0aMoufk7XMIVhjPMElnvt2fyTczvu0qxK7ciSxVu/n14iVujhPelJ8L3PUWfki/1bHHSmQCLsrDAUQtPP3ybfRGvUCPrnU2AX01TS0P5IXaGUuC9jt11b+Juj1miqlJ8ZnIPCXG4Xs4XoHhtTBFtrSJU0HMFtQmZhgi2Sgq8wKu7g5LpX4UVgVSVD1tLt5YkRZVQaC8t5/k2t5S38jEaiRgYitSlZjNlg+R4CKPkA3eECQTGChlk23fJ3GOqzQVQ1WdL+/vUvvB34nq+3MoEktZpJ1rw==</Modulus>
+        <Exponent>AQAB</Exponent>
+        <P>0wr5Lf49walsNvdsRi73np83oxvlWncG5QOC0vRL32NtBg/io1yreVJN68mm/8osuWme0+RoavJU8JCGJLYuPqubb3LRJFfJ+1pgM3BcJb0WHdClEhVaDND/ogjQZbQYPnFIg4DFjSRr1tu8/UX/Fxr9pxpoL/8ZjhY970UBgGs=</P>
+        <Q>rbOVW+tCZTcZFYmk8IlgMwaFymR3x1iypg6lI9x1y8GM+G2WR8K9i3JSQsCXoNa40PoumvkcvbeW5052kJ1p0b/wFDQSEiK2DasHyIEy+Y/vtPNoRoftuTkk1H83EzaHAG1reRMBrlHaEY6Fo8SmDf2YOuEXvUPig+wvVahD4M0=</Q>
+        <DP>A2aJ3VPbauNv+vLBq9/V3ZhzLQ2mBG8mjUohMYT+M/tGJnLbFAbKPIo29zWomzaGwfYRuRhVFmQROk8Z2j2VQS1Cs+kFtbA0cPhj1HBbC8CgOprCDiiJ6urzM4kw0nK0cU0h/fx1MnEDy9J+mRYnphepPqgORbe2kbOKC/DwtUE=</DP>
+        <DQ>LoU6KzQGxDTNcwc6NXGVYhUNH/doXOtUbUTe1YvlwHxF1QMEjJOLUB1+CoKqGVlohg97C+ZL3EOfFrPc7T47aQGOutp3PIQvXdnAa+KuVEhIWp4V/03ITSMQyhiIF40y+tpTPkno2VbyoGEbSZERKA4TBzHhub7Em7BVvQsjosE=</DQ>
+        <InverseQ>uyRXuU330Nzj5mgMNyUgjPtUWJO+JtcJojmirIiL/H73tvK4eutDLK7XLH1qxxEtmyN4ghsGlHrBdwGiLwpRHQwY9c1ic182UTGS7jMchnBlGrP2zAOqJEFGSo52BSmJfhTqGLe+TATeq08R+15TEPNCmTlq0+3uXhe9v6QH+20=</InverseQ>
+        <D>GllDrEjqV9msLCYViavxA/zGMxl8Wx02uCw3XCJFqeJMBh9JXbXJZ/cmHQsP9fsBCvHptL0JzZUQshc9L5n900w3az8QJKmhxAhy1ZL5UgGohi6FUUnz6fZQvUEfdDtAmIqwGg8YiuNVVdWv8VDh797LzlASQ+TlwcjE692qQl2KYoQH94DAgSJulIZEeQqbUtfosFrb3fxwzR6IAx99eU6YCDq1pX/vqPLGGohwTKoJICtiAfXHLdUUuA5HnEfRZRsc5eIQwVofVd/QZWSa/uCDI7SqW88EMz5kGw+2QLOP0Y7E+LD5abgxtl9EUFjC2cnxzqIh50uLdh6PwTowqQ==</D>
+    </RSAKeyValue>
+  testmintax_publickey.xml: |-
+    <RSAKeyValue>
+        <Modulus>jzJ2MXnYqGNv2gFv2aZCMLy6uivY85Jpn0z8zUa1mId7M1aVAYgfXwLo+H0aMoufk7XMIVhjPMElnvt2fyTczvu0qxK7ciSxVu/n14iVujhPelJ8L3PUWfki/1bHHSmQCLsrDAUQtPP3ybfRGvUCPrnU2AX01TS0P5IXaGUuC9jt11b+Juj1miqlJ8ZnIPCXG4Xs4XoHhtTBFtrSJU0HMFtQmZhgi2Sgq8wKu7g5LpX4UVgVSVD1tLt5YkRZVQaC8t5/k2t5S38jEaiRgYitSlZjNlg+R4CKPkA3eECQTGChlk23fJ3GOqzQVQ1WdL+/vUvvB34nq+3MoEktZpJ1rw==</Modulus>
+        <Exponent>AQAB</Exponent>
+    </RSAKeyValue>
+
+
+
+

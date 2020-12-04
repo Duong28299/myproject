@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "mtax-connector.fullname" . }}-configmap
+data:
+  appsettings.json: |
+    {
+      "Logging": {
+        "LogLevel": {
+          "Default": "Information",
+          "Microsoft": "Warning",
+          "Microsoft.Hosting.Lifetime": "Information"
+        }
+      },
+      "LocalSettings": {
+        "MultiTenantMiddle": {
+          "MaxWeighPerDatabase": 100
+        },
+        "RedisCacheConfig": {
+          "InstanceName": "ETaxMultitenantDB",
+          "RedisHostDEBUG": "10.0.6.52:30225",
+          "RedisHost": "mintax-redis-etax-master"
+        },
+        "MTaxConfig": {
+          "ClientID": "a9062433-bfbc-40ca-be1f-d1c8738c6cd3",
+          "SaveDeclerationPathSended": "TempFileDeclereation",
+          "MTaxBaseAddress": "https://test-mtaxapi.misa.vn.local/v1/"
+        },
+      },
+local
+      "ConnectionStrings": {
+        "MintaxConnection": "server=mintax-test-etax-mariadb;port=3306;database=misa_etaxmintax_test;user=root;password=misa@2020;CharSet=utf8;",      
+      },
+      "AllowedHosts": "*"
+    }

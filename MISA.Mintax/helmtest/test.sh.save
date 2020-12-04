@@ -1,0 +1,2 @@
+helm upgrade mintax-test-etax -f values.yaml ./etax | heml upgrade mintax-test-amisconnector -f values.yaml ./amis-connector
+| helm upgrade mintax-test-web -f values.yaml ./mintax-ui

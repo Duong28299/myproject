@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+ name:  {{ template "amis-connector.fullname" . }}-configmap
+data:
+ appsettings.json: | 
+  {
+    "Logging": {
+      "LogLevel": {
+        "Default": "Information",
+        "Microsoft": "Warning",
+        "Microsoft.Hosting.Lifetime": "Information"
+      }
+    },
+    "AllowedHosts": "*",
+    "AmisSetting": {
+      "x-clientid": "327d19ed-6e0a-486e-8733-87bd82d5c794",
+      "x-clientsecret": "N1UmccCVDGh2mXQMHCtcIZhHGIqnULoeGvk5RfMwX/Q=",
+      "amisUrl": "https://testamisapp.misa.vn/APIS/IntegrationAPI"
+    },
+    "ConnectionStrings": {
+       "AmisConnection": "server=mintax-amis-database;port=3306;database=misa_amismintax_demo;user=root;password=misa@2020;CharSet=utf8"
+    },
+    "AppSettings": {
+      "Token" : "MyTokenScreatKey"
+    }
+  }
+
+
+

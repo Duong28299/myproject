@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mintaxetaxconfigmap
+data:
+  appsettings.json: |
+    {
+      "Logging": {
+        "LogLevel": {
+          "Default": "Information",
+          "Microsoft": "Warning",
+          "Microsoft.Hosting.Lifetime": "Information"
+        }
+      },
+      "ConnectionStrings": {
+        "MintaxConnection": "server=mintax-etax-database;port=3306;database=misa_etaxmintax_dev;user=root;password=misa@2020;CharSet=utf8"
+      },
+      "AmisConnector": {
+        "BaseURL": "http://mintax-amisconnector/amisconnector/api/v1"
+      },
+      "AllowedHosts": "*"  
+    }

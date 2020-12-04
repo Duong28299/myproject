@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "mintax-worker.fullname" . }}-configmap
+data:
+  appsettings.json: |
+    {
+      "Logging": {
+        "LogLevel": {
+          "Default": "Information",
+          "Microsoft": "Warning",
+          "Microsoft.Hosting.Lifetime": "Information"
+        }
+      },
+      "ConnectionStrings": {
+        "MintaxConnection": "server=mintax-test-etax-mariadb;port=3306;database=misa_etaxmintax_test;user=mintax;password=misa@2020;CharSet=utf8;",
+        "Catalog": "server=mintax-amis-database;port=3306;database=misa_amismintax_test;user=root;password=misa@2020;CharSet=utf8;"
+      },
+      "RedisCacheConfig": {
+        "InstanceName": "ETaxMultitenantDB",
+        "RedisHost": "mintax-redis-etax-master"
+      },
+      "CheckEveryMinute" : 1,
+      "Allowed": "*"
+    }

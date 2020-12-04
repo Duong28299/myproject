@@ -1,0 +1,20 @@
+// Title có bottom đỏ dưới chân
+@import "./variables.scss";
+.title-bottom-red {
+
+  .main-title {
+    font-family: $_fontbold;
+    color: $primary;
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+  .red-line {
+    width: 44px;
+    bottom: 0px;
+    height: 1px;
+    background-color: $seconds;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    position: unset;
+  }
+}

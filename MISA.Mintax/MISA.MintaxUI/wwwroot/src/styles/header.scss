@@ -1,0 +1,70 @@
+@import "./variables.scss";
+#header{
+    position: absolute;
+    z-index: 100;
+    top: 0px;
+    height: 60px;
+    left: 200px;
+    right: 0;
+    background-color: $white;
+    box-shadow: 0px 4px 4px -4px $box-shadow-grey;
+
+    .contain-logo{
+        width: 200px;
+
+        .logo-amis-market{
+            background: url('~@/icons/ICON.svg');
+            background-position: -16px -48px;
+        }
+
+        .logo-mintax {
+            background: url('~@/assets/images/logo-beta.svg');
+            background-size: 40px;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .txt-logo{
+            width: calc(100% - 62px);
+            height: 100%;
+            line-height: 60px;
+        }
+    }
+
+    .contain-user{
+        display: flex;
+        width: calc(100% - 200px);
+        align-items: center;
+        .img-avatar{
+            position: absolute;
+            right: 51px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+        .img-arrowdown{
+            position: absolute;
+            right: 20px;
+            cursor: pointer;
+        }
+        .img-noti{
+            position: absolute;
+            right: 60px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        .tittle-header{
+            position: absolute;
+            right: 100px;
+            height: 20px;
+            margin-top: 2px;
+            &:hover{ 
+                color: $primary;
+            }
+        }
+    }
+
+}
+

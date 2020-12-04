@@ -1,0 +1,28 @@
+apiVersion: skaffold/v1
+kind: Config
+
+
+build:
+  artifacts:
+    - image: web
+      context: .
+      docker:
+        dockerfile: MISA.MintaxUI/Dockerfile
+
+    - image: etax
+      context: .
+      docker:
+        dockerfile: Services/ETax/MISA.Mintax.ETax.Api/Dockerfile
+
+deploy:
+  helm:
+    releases:
+      - name: mintax-dev
+        namespace: mintax-dev
+        chartPath: DeployConfig
+        valuesFiles:
+          - DeployConfig/values-dev.yaml
+        values:
+          web.image.repository: web
+          etax.image.repository: etax
+

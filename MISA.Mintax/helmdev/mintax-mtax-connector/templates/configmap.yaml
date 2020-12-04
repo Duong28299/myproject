@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "mtax-connector.fullname" . }}-configmap
+data:
+  appsettings.json: |
+    {
+      "Logging": {
+        "LogLevel": {
+          "Default": "Information",
+          "Microsoft": "Warning",
+          "Microsoft.Hosting.Lifetime": "Information"
+        }
+      },
+      "AllowedHosts": "*",
+      "ClientID": "a9062433-bfbc-40ca-be1f-d1c8738c6cd3",
+      "SaveDeclerationPathSended": "TempFileDeclereation",
+      "MTaxBaseAddress": "https://mtaxapi.misa.vn/v1/"
+    }

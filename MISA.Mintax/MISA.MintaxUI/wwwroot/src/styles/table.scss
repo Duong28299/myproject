@@ -1,0 +1,199 @@
+@import "./variables.scss";
+.el-table .cell {
+  cursor: default;
+  word-break: unset;
+  white-space: nowrap;
+  padding: 0 10px 0 10px;
+  color: $dark;
+}
+
+.el-table th.is-leaf {
+  height: 52px !important;
+
+  .cell {
+    padding: 0 10px;
+  }
+}
+
+//Chỉnh sửa footer table
+.el-table__footer-wrapper {
+  position: absolute;
+  bottom: 0px;
+  font-family: $_fontbold;
+  height: 48px;
+  table {
+    height: 100%;
+  }
+}
+.el-table__header-wrapper tbody td,
+.el-table__footer-wrapper tbody td div {
+  color: $dark;
+  font-family: $_fontbold;
+}
+
+.el-table__footer-wrapper tbody td:first-child div {
+  width: 60px;
+}
+
+.el-table__footer-wrapper tbody td {
+  background-color: $hover-blue !important;
+  height: 48px !important;
+}
+.el-pagination__sizes {
+  position: absolute;
+  right: 0px;
+}
+.el-pager {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+.el-pagination .btn-prev {
+  background-color: $white !important;
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  left: 50%;
+  border-radius: 5px;
+  transform: translateX(-245px) translateY(-50%);
+
+  &:hover:not([disabled]) {
+    background-color: $background-grey !important;
+  }
+}
+.el-pagination .btn-next {
+  border-radius: 5px !important;
+  background-color: $white !important;
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  left: 50%;
+  transform: translateX(205px) translateY(-50%);
+  &:hover:not([disabled]) {
+    background-color: $background-grey !important;
+  }
+}
+.el-pagination__sizes {
+  height: 36px !important;
+  line-height: 36px !important;
+  transform: translateY(-50%);
+  width: 170px;
+}
+
+.tbl-main .el-table {
+  position: relative;
+  border: none;
+  color: $dark;
+
+  .el-table--enable-row-hover .el-table__body tr:hover > td {
+    background-color: $hover-blue;
+  }
+}
+
+//Chỉnh màu  khi click vào một row của table
+.el-table__body tr.current-row > td {
+  background-color: $hover-blue;
+}
+
+.el-table--enable-row-hover .el-table__body tr:hover > td {
+  background-color: $background-grey !important;
+}
+
+.el-table__header-wrapper {
+  .cell{
+    font-family: $_fontmedium;
+  }
+}
+.tbl-summary {
+  .el-table__body-wrapper {
+    height: calc(100% - 100px);
+  }
+}
+
+.tbl-normal {
+  .el-table__body-wrapper {
+    height: calc(100% - 65px);
+  }
+}
+
+.el-table__body-wrapper {
+  overflow-y: overlay !important;
+  overflow-x: auto !important;
+
+  .el-table__row {
+    height: 45px;
+  }
+}
+
+.el-table__footer-wrapper {
+  tbody td {
+    background-color: $medium-white;
+  }
+}
+
+.el-table__empty-text {
+  color: $dark;
+  font-size: 16px;
+}
+
+.el-table-column--selection .cell {
+  padding: 0 10px;
+}
+
+// Chỉnh sửa độ rộng control paging table
+.pagination-container {
+  .el-pagination__total {
+    font-family: $_fontbold;
+  }
+
+  .el-pagination {
+    .el-select .el-input {
+      width: 150px;
+      .el-input__inner {
+        height: 36px;
+        border-radius: 5px;
+        padding: 0px 28px 0px 16px;
+      }
+    }
+  }
+}
+
+.el-pagination__editor.el-input {
+  width: 60px;
+  margin-left: 4px;
+}
+
+.el-pagination.is-background {
+  .el-pager li {
+    border-radius: 50%;
+    background-color: $white;
+    border: 1px solid $hover-grey;
+    line-height: 26px;
+    &:not(.disabled):hover {
+      background-color: $hover-grey;
+      color: $dark;
+    }
+
+    &:not(.disabled).active {
+      background-color: $active-green;
+      color: $dark-primary;
+      border-color: $active-green;
+    }
+  }
+}
+
+//Chỉnh padding row table
+.el-table--medium th,
+.el-table--medium td {
+  padding: 0 0;
+}
+
+//Chỉnh css cột have check
+.el-table-column--selection .cell {
+  padding-right: 0px;
+}
+
+//Chỉnh padding cho header
+.el-table th.is-leaf .cell {
+  padding: 0 10px;
+}

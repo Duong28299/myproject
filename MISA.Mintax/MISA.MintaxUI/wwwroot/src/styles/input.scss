@@ -1,0 +1,174 @@
+@import "./variables.scss";
+
+.el-select {
+  width: 100%;
+}
+.label-input {
+  padding-bottom: 20px;
+}
+
+//Style cho FIELD INPUT ICON SEARCH
+#input-icon {
+  height: 40px;
+  border-radius: 5px;
+  color: $dark;
+  border: 1px solid $white;
+  font-size: 13px;
+  padding-left: 40px;
+  background-repeat: no-repeat;
+  background-position: 12px 10px;
+  &:focus {
+    border: 1px solid $light-primary;
+    border-radius: 5px;
+    outline: none;
+  }
+}
+
+.icon-custom input {
+  background-position: 12px 9px;
+  background-size: 18px;
+  background-repeat: no-repeat;
+}
+//icon tìm kiếm
+.icon-search input {
+  background-image: url("~@/icons/Group 17798@2x.png");
+}
+
+//Style cho FIELD INPUT thường
+.input {
+  height: 40px;
+  border-radius: 5px;
+  color: $dark;
+  font-weight: "regular";
+  border: 1px solid $light-grey;
+  font-size: 13px;
+  padding-left: 16px;
+  &:focus {
+    border: 1px solid $primary;
+    border-radius: 5px;
+    outline: none;
+  }
+}
+
+//Style cho FIELD INPUT thường element UI
+.element input {
+  max-width: 400px;
+  height: 40px;
+  border-radius: 5px;
+  color: $dark;
+  font-weight: "regular";
+  border: 1px solid $light-grey;
+  font-size: 13px;
+  padding-left: 10px;
+  padding-right: 16px !important;
+  &:focus {
+    border: 1px solid $primary;
+    border-radius: 5px;
+    outline: none;
+  }
+}
+.el-input__inner {
+  color: $dark;
+  border-radius: 5px;
+}
+
+//Style cảnh báo cho FIELD INPUT không được để trống nhập liệu cho element UI
+.el-form-item.is-error .el-input__inner,
+.el-form-item.is-error .el-input__inner:focus,
+.el-form-item.is-error .el-textarea__inner,
+.el-form-item.is-error .el-textarea__inner:focus {
+  border-color: $seconds !important;
+}
+
+//Style cho input labal element
+.el-form--label-top .el-form-item__label {
+  padding: 0px;
+  margin-bottom: 8px;
+}
+
+.el-input {
+  margin-left: 0px;
+}
+
+//Style cho input append
+#input-append {
+  .el-input--medium .el-input__inner {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  .el-input-group__append {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: $white;
+    border-color: $bg-grey;
+  }
+
+  .input-number.el-input--suffix .el-input__inner {
+    padding-right: 10px;
+  }
+}
+
+//Style cho input prepend
+#input-prepend {
+  .el-input--medium .el-input__inner {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+  }
+  .el-input-group__prepend {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-color: $bg-grey;
+  }
+}
+
+// Căn phải cho trường nhập liệu số
+.input-number {
+  position: relative;
+  .el-input__inner {
+    text-align: right;
+  }
+  .el-input__suffix {
+    transform: translateX(0) !important;
+    left: 5px !important;
+    right: unset !important;
+  }
+}
+
+.el-input--suffix .el-input__inner {
+  padding-right: 10px;
+}
+
+.el-select:not(.combobox) {
+  input {
+    text-overflow: ellipsis;
+  }
+  .el-input--suffix .el-input__inner {
+    padding-right: 30px;
+    padding-left: 16px;
+
+    &::placeholder {
+      color: $dark !important;
+    }
+  }
+}
+input {
+  text-overflow: ellipsis;
+}
+// .el-input--suffix .el-input__inner {
+//   padding-right: 30px ;
+// }
+//Chỉnh sửa border ô input khi hover vào
+.el-input--medium .el-input__inner:hover {
+  border-color: $light-primary;
+}
+
+//Chỉnh sửa màu label form
+.el-form-item__label {
+  color: $dark !important;
+}
+
+*::placeholder {
+  font-size: 12px !important;
+  color: $bg-grey !important;
+  font-family: $_fontregular !important;
+}

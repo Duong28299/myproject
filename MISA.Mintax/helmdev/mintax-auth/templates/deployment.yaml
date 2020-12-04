@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mintax-auth.fullname" . }}
+  labels:
+{{ include "mintax-auth.labels" . | indent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "mintax-auth.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "mintax-auth.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ template "mintax-auth.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          - name: {{ template "mintax-auth.fullname" . }}-configmap
+            mountPath: /app/NLog.config
+            subPath: NLog.config
+            readOnly: true
+          - name: {{ template "mintax-auth.fullname" . }}-configmap
+            mountPath: /app/appsettings.json
+            subPath: appsettings.json
+            readOnly: true
+          - name: {{ template "mintax-auth.fullname" . }}-configmap
+            mountPath: /app/configs/keys/testmintax_publickey.xml
+            subPath: testmintax_publickey.xml
+            readOnly: true
+          - name: {{ template "mintax-auth.fullname" . }}-configmap
+            mountPath: /app/configs/keys/testmintax_privatekey.xml
+            subPath: testmintax_privatekey.xml
+            readOnly: true
+      volumes:
+        - name: {{ template "mintax-auth.fullname" . }}-configmap
+          configMap:
+            name: {{ template "mintax-auth.fullname" . }}-configmap
+            items:
+              - key: nlog.confg
+                path: NLog.config
+              - key: appsettings.json
+                path: appsettings.json
+              - key: testmintax_publickey.xml
+                path: testmintax_publickey.xml
+              - key: testmintax_privatekey.xml
+                path: testmintax_privatekey.xml
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

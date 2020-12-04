@@ -1,0 +1,49 @@
+version: "3.4"
+
+services:
+  misa.mintax.etax.api:
+    image: misadockerhub.vn:30100/demo-mintax-etax:2.2.4
+    build:
+      context: .
+      dockerfile: Services/ETax/MISA.Mintax.ETax.Api/Dockerfile
+
+  misa.mintaxui:
+    image: misadockerhub.vn:30100/demo-mintax-ui:2.2.4
+    build:
+      context: .
+      dockerfile: MISA.MintaxUI/Dockerfile_demo
+
+  misa.mintax.amisconnector:
+    image: misadockerhub.vn:30100/demo-mintax-amisconnector:2.2.4
+    build:
+      context: .
+      dockerfile: Services/AmisConnector/MISA.Mintax.Amis.Api/Dockerfile
+  misa.mintax.general:
+    image: misadockerhub.vn:30100/demo-mintax-general:2.2.4
+    build:
+      context: .
+      dockerfile: Services/General/MISA.Mintax.General.Api/Dockerfile
+
+  misa.mintax.auth:
+    image: misadockerhub.vn:30100/demo-mintax-auth:2.2.4
+    build:
+      context: .
+      dockerfile: Services/Auth/MISA.Mintax.Auth/Dockerfile
+
+  misa.mintax.mtaxconnector:
+    image: misadockerhub.vn:30100/demo-mintax-mtaxconnector:2.2.4
+    build:
+      context: .
+      dockerfile: Services/MTaxConnector/MISA.Mintax.MTax.Api/Dockerfile
+
+  misa.mintax.workerservice:
+    image: misadockerhub.vn:30100/demo-mintax-worker:2.2.4
+    build:
+      context: .
+      dockerfile: Services/Worker Service/MISA.MinTax.Worker/Dockerfile
+
+  misa.mintax.directory:
+    image: misadockerhub.vn:30100/demo-mintax-directory:2.2.4
+    build:
+      context: .
+      dockerfile: Services/Directory/MISA.Mintax.Directory.Api/Dockerfile

@@ -1,0 +1,288 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "mintax-gateway-nginx.fullname" . }}-configmap
+data:
+  nginx.conf: |
+    user  nginx;
+    worker_processes  auto;
+    error_log  /var/log/nginx/error_log warn;
+    pid        /var/run/nginx.pid;
+    load_module /etc/nginx/modules/ngx_http_js_module.so;
+    events {
+        worker_connections  1024;
+    }
+    http {
+        include /etc/nginx/modules/*.conf;
+        include /etc/nginx/mime.types;
+        default_type  application/octet-stream;
+        log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                          '$status $body_bytes_sent "$http_referer" '
+                          '"$http_user_agent" "$http_x_forwarded_for"';
+        access_log  /var/log/nginx/access.log  main;
+        sendfile    on;
+        #tcp_nopush on;
+        keepalive_timeout  65;
+        #gzip  on;
+        include /etc/nginx/api_gateway.conf; # All API gateway configuration
+        include /etc/nginx/conf.d/*.conf;    # Regular web traffic
+    }
+  api_gateway.conf: |
+    log_format api_main '$remote_addr - $remote_user [$time_local] "$request"'
+                    '$status $body_bytes_sent "$http_referer" "$http_user_agent"'
+                    '"$http_x_forwarded_for" "$api_name"';
+    include /etc/nginx/api_backends.conf;
+    #include api_keys.conf;
+    server {
+        gzip on;
+        set $api_name -; # Start with an undefined API name, each API will update this value
+        listen 80;
+        server_name testapi-mintax.misa.com.vn;
+        #...
+        # add_header 'Access-Control-Allow-Origin: https://test-mintax.misa.com.vn';
+        # add_header 'Access-Control-Allow-Credentials' 'true';
+        # add_header 'Access-Control-Allow-Headers' 'Authorization,Accept,Origin,DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range,OrganizationID,Access-Control-Allow-Origin,sid';
+        # add_header 'Access-Control-Allow-Methods' 'GET,POST,OPTIONS,PUT,DELETE,PATCH';
+
+        location / {
+            root   /usr/share/nginx/html;
+            index  index.html index.htm;
+
+        }
+        
+        location /heathz {
+            stub_status on;
+            access_log off;
+        }
+
+        # API
+        location /oauth {
+        #    limit_except GET OPTIONS {}
+           set $upstream mintax-auth;
+           if ($request_method = 'OPTIONS') {
+                rewrite ^(.*)$ /_anonymous$1 last;
+           }
+           rewrite ^(.*)$ /_anonymous$1 last;
+        }
+        
+        location /amisconnector/api/v1/AMIS/install {
+           set $upstream mintax-amisconnection;
+            rewrite ^(.*)$ /_anonymous$1 last;
+        }
+
+        location /amisconnector {
+           set $upstream mintax-amisconnection;
+            if ($request_method = 'OPTIONS') {
+                rewrite ^(.*)$ /_anonymous$1 last;
+           }
+           rewrite ^(.*)$ /_resource$1 last;
+        }
+
+        location /mtaxconnector {
+           set $upstream mintax-mtaxconnector;
+            if ($request_method = 'OPTIONS') {
+                rewrite ^(.*)$ /_anonymous$1 last;
+           }
+           rewrite ^(.*)$ /_resource$1 last;
+        }
+
+        location /import-export {
+           rewrite ^(.*)$ /import last;
+        }
+
+        location /import {
+            set $upstream mintax-import;
+            if ($request_method = 'OPTIONS') {
+                rewrite ^(.*)$ /_anonymous$1 last;
+           }
+           rewrite ^(.*)$ /_resource$1 last;
+        }
+
+
+        location /etax {
+           set $upstream mintax-etax;
+           
+           if ($request_method = 'OPTIONS') {
+                rewrite ^(.*)$ /_anonymous$1 last;
+           }
+           rewrite ^(.*)$ /_resource$1 last;
+        }
+
+        location /general {
+           set $upstream mintax-general;
+            if ($request_method = 'OPTIONS') {
+                rewrite ^(.*)$ /_anonymous$1 last;
+           }
+           rewrite ^(.*)$ /_resource$1 last;
+        }
+        
+        # Policy section
+       
+        location /_anonymous {
+           internal;
+           set $api_name "anonymous";
+           rewrite ^/_anonymous/(.*)$ /$1 break; # Remove /_anonymous prefix
+           proxy_pass http://$upstream; # Proxy the rewritten URI
+           proxy_set_header Host      $host;
+           proxy_set_header X-Real-IP $remote_addr;
+        }
+        
+        location /_resource {
+
+           internal;
+           set $api_name "resource";
+           # Policy configuration here (authentication, rate limiting, logging, more...)
+           auth_request /auth;
+           auth_request_set $auth_status $upstream_status;
+          
+           rewrite ^/_resource/(.*)$ /$1 break; # Remove /_resource prefix
+           proxy_pass http://$upstream; # Proxy the rewritten URI
+           proxy_set_header Host      $host;
+           proxy_set_header X-Real-IP $remote_addr;
+        }
+        
+        location = /auth {
+            internal;
+            proxy_pass http://mintax-auth/oauth/api/v1/auth;
+            proxy_pass_request_body off;
+            proxy_set_header Content-Length "";
+            proxy_set_header X-Original-URI $request_uri;
+            proxy_set_header Host      $host;
+            proxy_set_header X-Real-IP $remote_addr;
+        }
+        
+        
+        access_log /var/log/nginx/api_access.log api_main; # Each API may also log to a separate file
+        # API definitions, one per file
+        # include api_conf.d/*.conf;
+        # Error responses
+        # error_page 404 = @400;         # Invalid paths are treated as bad requests
+        # proxy_intercept_errors on;     # Do not send backend errors to the client
+        # include /etc/nginx/api_json_errors.conf;  # API client friendly JSON error responses
+        default_type application/json; # If no content-type then assume JSON
+    }
+  api_backends.conf: |
+  
+    upstream mintax-auth {
+        least_conn;
+        zone mintax-auth 64k;
+        server mintax-auth max_fails=3 fail_timeout=15m;
+    }
+
+    upstream mintax-amisconnection {
+        least_conn;
+        zone mintax-amisconnector 64k;
+        server mintax-amisconnector max_fails=3 fail_timeout=15m;
+    }
+    upstream mintax-mtaxconnector {
+        least_conn;
+        zone mintax-mtaxconnector  64k;
+        server mintax-mtaxconnector max_fails=3 fail_timeout=15m;
+    }   
+
+    upstream mintax-general {
+        least_conn;
+        zone mintax-general 64k;
+        server mintax-general max_fails=3 fail_timeout=15m;
+    }
+
+    upstream mintax-etax {
+        least_conn;
+        zone mintax-test-etax 64k;
+        server mintax-test-etax max_fails=3 fail_timeout=15m;
+    }
+
+    upstream  mintax-import {
+        least_conn;
+        zone mintax-importexport 64k;
+        server mintax-importexport max_fails=3 fail_timeout=15m;
+    }
+
+  api_json_errors.conf: |
+    error_page 400 = @400;
+    location @400 { return 400 '{"success":false,"misaCode":400,"message":"Bad request"}\n'; }
+    error_page 401 = @401;
+    location @401 { return 401 '{"success":false,"misaCode":401,"message":"Unauthorized"}\n'; }
+    error_page 403 = @403;
+    location @403 { return 403 '{"success":false,"misaCode":403,"message":"Forbidden"}\n'; }
+    error_page 404 = @404;
+    location @404 { return 404 '{"success":false,"misaCode":404,"message":"Resource not found"}\n'; }
+    error_page 405 = @405;
+    location @405 { return 405 '{"success":false,"misaCode":405,"message":"Method not allowed"}\n'; }
+    error_page 408 = @408;
+    location @408 { return 408 '{"success":false,"misaCode":408,"message":"Request timeout"}\n'; }
+    error_page 413 = @413;
+    location @413 { return 413 '{"success":false,"misaCode":413,"message":"Payload too large"}\n'; }
+    error_page 414 = @414;
+    location @414 { return 414 '{"success":false,"misaCode":414,"message":"Request URI too large"}\n'; }
+    error_page 415 = @415;
+    location @415 { return 415 '{"success":false,"misaCode":415,"message":"Unsupported media type"}\n'; }
+    error_page 426 = @426;
+    location @426 { return 426 '{"success":false,"misaCode":426,"message":"HTTP request was sent to HTTPS port"}\n'; }
+    error_page 429 = @429;
+    location @429 { return 429 '{"success":false,"misaCode":429,"message":"API rate limit exceeded"}\n'; }
+    error_page 495 = @495;
+    location @495 { return 495 '{"success":false,"misaCode":495,"message":"Client certificate authentication error"}\n'; }
+    error_page 496 = @496;
+    location @496 { return 496 '{"success":false,"misaCode":496,"message":"Client certificate not presented"}\n'; }
+    error_page 497 = @497;
+    location @497 { return 497 '{"success":false,"misaCode":497,"message":"HTTP request was sent to mutual TLS port"}\n'; }
+    error_page 500 = @500;
+    location @500 { return 500 '{"success":false,"misaCode":500,"message":"Server error"}\n'; }
+    error_page 501 = @501;
+    location @501 { return 501 '{"success":false,"misaCode":501,"message":"Not implemented"}\n'; }
+    error_page 502 = @502;
+    location @502 { return 502 '{"success":false,"misaCode":502,"message":"Bad gateway"}\n'; }
+  default.conf: |
+    #server {
+        #listen       80;
+        #listen  [::]:80;
+        #server_name  localhost;
+        #charset koi8-r;
+        #access_log  /var/log/nginx/host.access.log  main;
+        #location / {
+            #root   /usr/share/nginx/html;
+            #index  index.html index.htm;
+        #}
+        #error_page  404              /404.html;
+        # redirect server error pages to the static page /50x.html
+        #
+        #error_page   500 502 503 504  /50x.html;
+        #location = /50x.html {
+            #root   /usr/share/nginx/html;
+        #}
+        # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+        #
+        #location ~ \.php$ {
+        #    proxy_pass   http://127.0.0.1;
+        #}
+        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        #
+        #location ~ \.php$ {
+        #    root           html;
+        #    fastcgi_pass   127.0.0.1:9000;
+        #    fastcgi_index  index.php;
+        #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+        #    include        fastcgi_params;
+        #}
+        # deny access to .htaccess files, if Apache's document root
+        # concurs with nginx's one
+        #
+        #location ~ /\.ht {
+        #    deny  all;
+        #}
+    #}
+  nginx_status.conf: |
+    #server {
+        #listen 80;
+        #server_name localhost;
+    
+        #location /nginx_status {
+            #stub_status on;
+            #access_log off;
+        #}
+    #}
+
+    
+
+

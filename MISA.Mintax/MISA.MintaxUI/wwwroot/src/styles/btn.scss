@@ -1,0 +1,1058 @@
+@import "./variables.scss";
+@mixin colorBtn($bgColor, $txtColor) {
+  background: $bgColor;
+  color: $txtColor;
+}
+
+button[disabled=disabled]{
+  opacity: 0.4;
+}
+
+.button-container {
+  float: right;
+  margin-right: 0px !important;
+}
+
+.btn-tool {
+  height: 40px;
+}
+
+// CSS cho primary button
+.btn-primary {
+  @include colorBtn($primary, $white);
+  min-width: 100px;
+  padding: 0 24px;
+  height: 40px;
+  font-size: 13px;
+  text-align: center;
+  outline: none;
+  border: none;
+  display: inline-block;
+  position: relative;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: $light-primary !important;
+    color: $white !important;
+    border: none;
+  }
+  &:active {
+    background-color: $hover-primary !important;
+    color: $white !important;
+    border: none;
+  }
+  &:focus {
+    @include colorBtn($primary, $white);
+    border: none;
+  }
+}
+
+// CSS cho primary button icon element UI
+.btn-primary-icon {
+  padding: 0 16px;
+  height: 40px;
+  font-size: 13px;
+  text-align: center;
+  outline: none;
+  border: none;
+  display: inline-block;
+  position: relative;
+  border-radius: 5px;
+  line-height: 40px;
+  background: $primary;
+  color: $white;
+  cursor: pointer;
+  &:hover {
+    background-color: $light-primary !important;
+    color: $white !important;
+  }
+  &:active {
+    background-color: $hover-primary !important;
+    color: $white !important;
+  }
+  &:focus {
+    @include colorBtn($primary, $white);
+  }
+  #iconel {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+  }
+  .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px !important;
+    transform: translateY(3px);
+  }
+}
+// CSS cho primary button icon element UI
+.btn-primary-icon button {
+  @include colorBtn($primary, $white);
+  padding: 0 16px;
+  height: 38px !important;
+  font-size: 13px;
+  text-align: center;
+  outline: none;
+  border: none;
+  display: inline-block;
+  position: relative;
+  border-radius: 5px;
+  line-height: 40px;
+  cursor: pointer;
+  &:hover {
+    background-color: $light-primary !important;
+    color: $white !important;
+  }
+  &:active {
+    background-color: $hover-primary !important;
+    color: $white !important;
+  }
+  &:focus {
+    @include colorBtn($primary, $white);
+  }
+  #iconel {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+  }
+  .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px !important;
+    transform: translateY(3px);
+  }
+}
+// CSS cho primary button icon element UI
+.btn-primary-icon button {
+  @include colorBtn($primary, $white);
+  padding: 0 16px;
+  height: 40px;
+  font-size: 13px;
+  text-align: center;
+  outline: none;
+  border: none;
+  display: inline-block;
+  position: relative;
+  border-radius: 5px;
+  line-height: 40px;
+  cursor: pointer;
+  &:hover {
+    background-color: $light-primary !important;
+    color: $white !important;
+  }
+  &:active {
+    background-color: $hover-primary !important;
+    color: $white !important;
+  }
+  &:focus {
+    @include colorBtn($primary, $white);
+  }
+  #iconel {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+  }
+  .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px !important;
+    transform: translateY(3px);
+  }
+}
+
+//CSS cho button primary mình icon
+.btn-primary-onlyicon {
+  @include colorBtn($primary, $white);
+  padding: 12px;
+  height: 40px;
+  font-size: 13px;
+  text-align: center;
+  outline: none;
+  border: none;
+  display: inline-block;
+  position: relative;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: $light-primary !important;
+    color: $white !important;
+  }
+  &:active {
+    background-color: $hover-primary !important;
+    color: $white !important;
+  }
+  &:focus {
+    @include colorBtn($primary, $white);
+  }
+  #iconel {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+  .icon {
+    width: 16px;
+    height: 16px;
+    margin: 0px !important;
+  }
+}
+
+// CSS cho second button
+.btn-seconds {
+  @include colorBtn($bg-color-2, $dark);
+  min-width: 100px;
+  padding: 0 24px;
+  height: 40px;
+  font-size: 13px;
+  text-align: center;
+  outline: none;
+  border: 1px solid $bg-grey;
+  display: inline-block;
+  position: relative;
+  border-radius: 5px;
+  cursor: pointer;
+
+  span{
+    font-family: $_fontmedium;
+  }
+
+  &:hover {
+    background-color: $bg-color-3 !important;
+    color: $dark !important;
+    border: 1px solid $bg-color-3;
+  }
+
+  &:active {
+    background-color: $hover-primary !important;
+    color: $white !important;
+    border: 1px solid $hover-primary;
+  }
+
+  &:focus {
+    @include colorBtn($bg-color-2, $dark);
+    border: 1px solid $bg-grey;
+  }
+}
+
+// CSS cho second text icon
+.btn-seconds-icon {
+  @include colorBtn($bg-color-2, $dark);
+  padding: 0px 16px;
+  height: 40px;
+  font-size: 13px;
+  text-align: center;
+  outline: none;
+  border: 1px solid $bg-grey;
+  display: inline-block;
+  position: relative;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: $hover-grey !important;
+    color: $dark !important;
+    border: 1px solid $hover-grey;
+  }
+  &:active {
+    background-color: $hover-primary !important;
+    color: $white !important;
+    border: 1px solid $hover-primary;
+  }
+  &:focus {
+    @include colorBtn($bg-color-2, $dark);
+    border: 1px solid $bg-grey;
+  }
+  #iconel {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+  .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px !important;
+    transform: translateY(3px);
+  }
+}
+
+// CSS cho second button có mình icon
+.btn-seconds-onlyicon {
+  @include colorBtn($bg-color-2, $dark);
+  padding: 12px;
+  height: 40px;
+  font-size: 16px;
+  text-align: center;
+  outline: none;
+  border: 1px solid $bg-grey;
+  display: inline-block;
+  position: relative;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: $hover-grey !important;
+    color: $dark !important;
+    border: 1px solid $hover-grey;
+  }
+  &:active {
+    background-color: $hover-primary !important;
+    color: $white !important;
+    border: 1px solid $hover-primary;
+  }
+  &:focus {
+    @include colorBtn($bg-color-2, $dark);
+    border: 1px solid $bg-grey;
+  }
+  #iconel {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+  .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px !important;
+    transform: translateY(3px);
+  }
+}
+
+// CSS cho delete button
+.btn-delete {
+  min-width: 100px;
+  padding: 0 24px;
+  height: 40px;
+  font-size: 13px;
+  text-align: center;
+  outline: none;
+  border: none;
+  background-color: $bg-red;
+  color: $white !important;
+  display: inline-block;
+  position: relative;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: $seconds;
+    color: $white;
+  }
+  &:active {
+    background-color: $seconds;
+    color: $white;
+  }
+  &:focus {
+    background-color: $bg-red;
+    color: $white;
+  }
+}
+
+// CSS cho delete button icon element UI
+.btn-delete-icon {
+  background-color: $bg-red;
+  color: $white !important;
+  padding: 0 16px;
+  height: 40px;
+  font-size: 13px;
+  text-align: center;
+  outline: none;
+  border: none;
+  display: inline-block;
+  position: relative;
+  border-radius: 5px;
+  line-height: 40px;
+  cursor: pointer;
+  &:hover {
+    background-color: $seconds;
+    color: $white;
+  }
+  &:active {
+    background-color: $seconds;
+    color: $white;
+  }
+  &:focus {
+    background-color: $bg-red;
+    color: $white;
+  }
+  #iconel {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+  }
+  .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px !important;
+    transform: translateY(3px);
+  }
+}
+
+//CSS cho button delete mình icon
+.btn-delete-onlyicon {
+  background-color: $bg-red;
+  color: $white !important;
+  padding: 12px;
+  height: 40px;
+  font-size: 13px;
+  text-align: center;
+  outline: none;
+  border: none;
+  display: inline-block;
+  position: relative;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: $seconds;
+    color: $white;
+  }
+  &:active {
+    background-color: $seconds;
+    color: $white;
+  }
+  &:focus {
+    background-color: $bg-red;
+    color: $white;
+  }
+  #iconel {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+  .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px !important;
+    transform: translateY(3px);
+  }
+}
+
+// Style cho button warn
+.btn-warn {
+  min-width: 100px;
+  height: 40px;
+  padding: 0 24px;
+  cursor: pointer;
+  font-size: 13px;
+  align-items: center;
+  border-radius: 5px;
+  border: none;
+  background-color: $yellow;
+  outline: none;
+  color: $white;
+  .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+  }
+  &:hover {
+    background-color: $yellow;
+    color: $white;
+  }
+  &:active {
+    color: $white;
+    background-color: $yellow;
+  }
+  &:focus {
+    background-color: $yellow;
+    color: $white;
+  }
+  #iconel {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-left: -8px;
+    margin-right: 5px;
+  }
+  .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px !important;
+    transform: translateY(3px);
+  }
+}
+
+// CSS cho grey button
+.btn-grey {
+  min-width: 100px;
+  padding: 0 24px;
+  height: 40px;
+  font-size: 13px;
+  text-align: center;
+  outline: none;
+  background-color: $bg-color-1;
+  color: $dark !important;
+  display: inline-block;
+  position: relative;
+  border:none;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: $bg-color-3;
+    color: $dark;
+  }
+  &:active {
+    color: $dark;
+    background-color: $bg-color-3;
+  }
+  &:focus {
+    background-color: $bg-color-1;
+    color: $dark;
+  }
+
+  span{
+    font-family: $_fontmedium;
+  }
+}
+
+// CSS cho grey button icon element UI
+.btn-grey-icon {
+  background-color: $bg-color-1;
+  color: $dark !important;
+  padding: 0 16px;
+  height: 40px;
+  font-size: 13px;
+  text-align: center;
+  outline: none;
+  border: none;
+  display: inline-block;
+  position: relative;
+  border-radius: 5px;
+  line-height: 40px;
+  cursor: pointer;
+  &:hover {
+    background-color: $bg-color-3;
+    color: $dark;
+  }
+  &:active {
+    color: $dark;
+    background-color: $bg-color-3;
+  }
+  &:focus {
+    background-color: $bg-color-1;
+    color: $dark;
+  }
+  #iconel {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+  }
+  .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px !important;
+    transform: translateY(3px);
+  }
+}
+
+//CSS cho button grey mình icon
+.btn-grey-onlyicon {
+  background-color: $bg-color-1;
+  color: $dark !important;
+  padding: 12px;
+  height: 40px;
+  font-size: 13px;
+  text-align: center;
+  outline: none;
+  border: none;
+  display: inline-block;
+  position: relative;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: $bg-color-3;
+    color: $dark;
+  }
+  &:active {
+    color: $dark;
+    background-color: $bg-color-3;
+  }
+  &:focus {
+    background-color: $bg-color-1;
+    color: $dark;
+  }
+  #iconel {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+  .icon {
+    width: 16px;
+    height: 16px;
+    margin: 0px !important;
+  }
+}
+
+//CSS cho button tab
+#btn-tab {
+  height: 40px;
+  padding: 0 24px;
+  cursor: pointer;
+  font-size: 13px;
+  align-items: center;
+  border-radius: 0px;
+  border: 2px solid $white;
+  background-color: $white;
+  outline: none;
+  color: $dark;
+  .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+  }
+  &:hover {
+    color: $primary;
+  }
+  #iconel {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-left: -8px;
+    margin-right: 5px;
+  }
+  .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px !important;
+    transform: translateY(3px);
+  }
+  &:focus {
+    border: 2px solid $white;
+    background-color: $white;
+  }
+}
+
+//CSS cho button white nền trắng border xám
+.btn-white {
+  min-width: 100px;
+  height: 40px;
+  padding: 0 24px;
+  cursor: pointer;
+  font-size: 13px;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid $bg-color-3;
+  background-color: $white;
+  outline: none;
+  color: $dark !important;
+  &:hover {
+    background-color: $light-grey !important;
+    border: 1px solid $light-grey !important;
+  }
+  &:active {
+    background-color: $grey !important;
+    border: 1px solid $grey !important;
+  }
+  &:focus {
+    border: 1px solid $bg-color-3;
+    background-color: $white;
+  }
+}
+
+// CSS cho white button icon element UI
+.btn-white-icon {
+  height: 40px;
+  padding: 0 16px;
+  cursor: pointer;
+  font-size: 13px;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid $bg-color-3;
+  background-color: $white;
+  outline: none;
+  color: $dark !important;
+  line-height: 40px;
+  &:hover {
+    background-color: $light-grey !important;
+    border: 1px solid $light-grey !important;
+  }
+  &:active {
+    background-color: $grey !important;
+    border: 1px solid $grey !important;
+  }
+  &:focus {
+    border: 1px solid $bg-color-3;
+    background-color: $white;
+  }
+  #iconel {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+  }
+  .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px !important;
+    transform: translateY(2px);
+  }
+  span{
+    font-family: $_fontmedium;
+  }
+}
+
+//CSS cho button white mình icon
+.btn-white-onlyicon {
+  height: 40px;
+  padding: 12px;
+  cursor: pointer;
+  font-size: 13px;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid $bg-color-3;
+  background-color: $white;
+  outline: none;
+  color: $dark !important;
+  &:hover {
+    background-color: $light-grey !important;
+    border: 1px solid $light-grey !important;
+  }
+  &:active {
+    background-color: $grey !important;
+    border: 1px solid $grey !important;
+  }
+  &:focus {
+    border: 1px solid $bg-color-3;
+    background-color: $white;
+  }
+  #iconel {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+  .icon {
+    width: 16px;
+    height: 16px;
+    margin: 0px !important;
+  }
+}
+
+//CSS cho button white2 nền trắng border xám
+.btn-white2 {
+  min-width: 100px;
+  height: 40px;
+  padding: 0 24px;
+  cursor: pointer;
+  font-size: 13px;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid $white;
+  background-color: $white;
+  outline: none;
+  color: $dark !important;
+  &:hover {
+    background-color: $light-grey !important;
+    border: 1px solid $light-grey !important;
+  }
+  &:active {
+    background-color: $grey;
+    border: 1px solid $grey;
+  }
+  &:focus {
+    border: 1px solid $white;
+    background-color: $white;
+  }
+}
+
+// CSS cho white2 button icon element UI
+.btn-white2-icon {
+  min-width: 100px;
+  height: 40px;
+  padding: 0 16px;
+  cursor: pointer;
+  font-size: 13px;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid $white;
+  background-color: $white;
+  outline: none;
+  color: $dark !important;
+  &:hover {
+    background-color: $light-grey !important;
+    border: 1px solid $light-grey !important;
+  }
+  &:active {
+    background-color: $grey !important;
+    border: 1px solid $grey !important;
+  }
+  &:focus {
+    border: 1px solid $white;
+    background-color: $white;
+  }
+  #iconel {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+  }
+  .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px !important;
+    transform: translateY(2px);
+  }
+}
+
+//CSS cho button white2 mình icon
+.btn-white2-onlyicon {
+  width: 40px !important;
+  height: 40px;
+  padding: 12px;
+  cursor: pointer;
+  font-size: 13px;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid $white;
+  background-color: $white;
+  outline: none;
+  color: $dark !important;
+  &:hover {
+    background-color: $light-grey !important;
+    border: 1px solid $light-grey !important;
+  }
+  &:active {
+    background-color: $grey !important;
+    border: 1px solid $grey !important;
+  }
+  &:focus {
+    border: 1px solid $white;
+    background-color: $white;
+  }
+  #iconel {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+  .icon {
+    width: 16px;
+    height: 16px;
+    margin: 0px !important;
+  }
+}
+
+//CSS cho button white2 chỉ có icon-20px
+.btn-white2-onlyicon-big {
+  width: 40px !important;
+  height: 40px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid $white;
+  background-color: $white;
+  outline: none;
+  color: $dark !important;
+  &:hover {
+    background-color: $light-grey !important;
+    border: 1px solid $light-grey !important;
+  }
+  &:active {
+    background-color: $grey !important;
+    border: 1px solid $grey !important;
+  }
+  &:focus {
+    border: 1px solid $white !important;
+    background-color: $white !important;
+  }
+  #iconel {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+  .icon {
+    width: 20px;
+    height: 20px;
+    margin: 0px !important;
+  }
+}
+
+.btn-white3-onlyicon {
+  width: 40px !important;
+  height: 40px;
+  padding: 12px;
+  cursor: pointer;
+  font-size: 13px;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid $light-grey;
+  background-color: $white;
+  outline: none;
+  color: $dark;
+  &:hover {
+    background-color: $white !important;
+    border: 1px solid $primary !important;
+    color: $primary !important;
+  }
+  &:active {
+    background-color: $light-primary !important;
+    border: 1px solid $light-primary !important;
+    color: $white !important;
+  }
+  &:focus {
+    border: 1px solid $light-grey;
+    background-color: $white;
+    color: $dark;
+  }
+  #iconel {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+  .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px !important;
+    transform: translateY(2px);
+  }
+}
+
+.btn-white3-onlyicon.is-disabled{
+  &:hover {
+    background-color: $white !important;
+    border: 1px solid $white !important;
+    color: $primary !important;
+  }
+}
+
+.btn-tab-active {
+  color: $hover-primary !important;
+  
+  span{
+    font-family: $_fontbold;    
+  }
+}
+
+.btn-tab-active:focus{
+  background: none;
+}
+
+.btn-infor-active {
+  color: $primary !important;
+  border-bottom: 1px solid $seconds !important;
+  transition: transform 0.3s cubic-bezier(0.645, 0.45, 0.355, 1);
+}
+
+//Chỉnh sửa cho multi button - icon sổ xuống menu button
+#multi-button {
+  .el-dropdown {
+    &:hover {
+      border-color: $light-grey;
+    }
+    .el-dropdown__caret-button {
+      min-width: 20px !important;
+      &:before {
+        width: 1px;
+        height: 100%;
+        top: 0px !important;
+      }
+    }
+  }
+}
+
+#multi-button3 .el-dropdown .el-dropdown__caret-button {
+  min-width: 20px !important;
+  padding-top: 14px;
+  &:before {
+    width: 1px;
+    height: 100%;
+    top: 0px !important;
+  }
+}
+
+.btn-chk-icon {
+  border: 1px solid $bg-color-3;
+  width: 166px;
+  height: 133px;
+  border-radius: 4px;
+  padding: 22px 0;
+  &:focus,
+  &:hover {
+    border: 1px solid $bg-color-3;
+    background-color: transparent;
+    color: #454545;
+  }
+  span {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &.active {
+    border: 1px solid $light-primary;
+    color: $hover-primary !important;
+  }
+
+  .el-checkbox {
+    pointer-events: none;
+
+    &__input {
+      & .is-focus .el-checkbox__inner {
+        border: 1px solid $bg-grey;
+      }
+    }
+  }
+
+  .el-checkbox__inner {
+    margin-top: 10px;
+    border-radius: 50%;
+    &:hover,
+    &:focus {
+      border: 1px solid $bg-grey;
+    }
+  }
+
+  img {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 5px;
+  }
+}
+
+.bg-white {
+  .el-button-group {
+    background: transparent;
+    height: 100%;
+  }
+  .btn-primary-icon {
+    background: transparent;
+  }
+
+  .btn-primary-icon {
+    &:hover {
+      background-color: transparent !important;
+    }
+    button {
+      border-color: transparent;
+      background: $white;
+      color: $hover-primary;
+      height: 100%;
+
+      &:hover {
+        background-color: $hover-grey !important;
+        color: $hover-primary !important;
+      }
+    }
+  }
+}
+
+// Buton giống dạng chip
+.btn-chip-info {
+  width: 75px;
+  height: 32px;
+  background-color: $chip-info-color;
+  color: $blue-duplicate;
+  border-color: $chip-info-color;
+
+  &:hover{
+    background-color: $blue-duplicate;
+    border-color: $blue-duplicate;
+    color: $white;
+  }
+
+  &:focus{
+    background-color: $blue-duplicate;
+    border-color: $blue-duplicate;
+    color: $white;
+  }
+}

@@ -1,0 +1,158 @@
+replicaCount: 1
+
+image:
+  pullPolicy: Always
+
+dbhost: "{{ .Release.Name }}-mariadb"
+dbport: 3306
+dbname: MISAiVAN_Test
+dbuser: root
+dbpass: misa@2020
+
+definition:
+  hosts: &host "test-ivan.misa.com.vn"
+
+  service: &service
+    type: ClusterIP
+    port: 80
+
+  annotaions: &annotaions
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/use-regex: "true"
+      nginx.ingress.kubernetes.io/rewrite-target: /$1
+      nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+
+  ingress: &ingress
+      enabled: true
+      tls: []
+
+
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  name:
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources: {}
+
+nodeSelector:
+  kubernetes.io/hostname: k8s-worker03
+
+tolerations: []
+
+affinity: {}
+
+
+web:
+  replicaCount: 1
+  image:
+    repository: web
+
+  service:
+    <<: *service
+
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      kubernetes.io/tls-acme: "true"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+      nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+      ingress.kubernetes.io/ssl-redirect: "false"
+      kubernetes.io/ssl-redirect: "false"
+    hosts:
+      - host: *host
+        paths: [/]
+      - host: *host
+        paths: [/js]
+  tls: []
+
+
+eprofile:
+  replicaCount: 1
+  image:
+    repository: eprofile
+
+  service:
+    <<: *service
+
+  ingress:
+    <<: *ingress
+    annotations:
+      <<: *annotaions
+    hosts:
+      - host: *host
+        paths: [/eprofile/(.*)]
+
+directory:
+  replicaCount: 1
+  image:
+    repository: directory
+
+  service:
+    <<: *service
+
+  ingress:
+    <<: *ingress
+    annotations:
+      <<: *annotaions
+    hosts:
+      - host: *host
+        paths: [/directory/(.*)]
+
+
+data:
+  replicaCount: 1
+  image:
+    repository: data
+
+  service:
+    <<: *service
+
+  ingress:
+    <<: *ingress
+    annotations:
+      <<: *annotaions
+    hosts:
+      - host: *host
+        paths: [/data/(.*)]
+
+amisconnector:
+  replicaCount: 1
+  image:
+    repository: amisconnector
+
+  service:
+    <<: *service
+
+  ingress:
+    <<: *ingress
+    annotations:
+      <<: *annotaions
+    hosts:
+      - host: *host
+        paths: [/amis-connector/(.*)]
+
+
+
+mariadb:
+#  service:
+#    type: NodePort
+  replication:
+    enabled: false
+  rootUser:
+    password: misa@2020
+  db:
+    user: dev
+    password: 12345678@Abc

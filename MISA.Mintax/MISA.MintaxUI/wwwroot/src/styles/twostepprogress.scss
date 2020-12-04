@@ -1,0 +1,71 @@
+@import "./variables.scss";
+$primary-color: #cc0202;
+$second-color: #03dc2e;
+$white: #fff;
+
+.progress {
+  display: flex;
+  .step-progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    span.progress-number {
+      margin-right: 8px;
+      width: 24px;
+      height: 24px;
+      border: 1px solid #e5e5e5;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    p {
+      color: $dark-grey;
+    }
+  }
+  .active.step-progress {
+    p {
+      color: #0e1d61;
+      font-size: 13px;
+      font-family: $_fontbold;
+    }
+    .progress-number {
+      border-color: $primary-color;
+      background-color: $primary-color;
+      color: $white;
+      width: 36px;
+      height: 36px;
+    }
+  }
+  hr {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  hr.dotted {
+    border: none;
+    border-bottom: 1px dashed #707070;
+    height: 1px;
+    width: 60px;
+    margin-left: 18.5px;
+    margin-right: 16.5px;
+  }
+  .step-progress.complete-progress {
+    .progress-number {
+      border: 1px solid $second-color;
+      background-color: $white;
+      width: 30px;
+      height: 30px;
+    }
+    p {
+      color: $dark-grey;
+    }
+    .tick {
+      border-bottom: 2px solid $second-color;
+      border-right: 2px solid $second-color;
+      height: 14px;
+      width: 6px;
+      transform: rotateY(0deg) rotate(45deg);
+      margin-top: -2px;
+    }
+  }
+}

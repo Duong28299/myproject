@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mintax.fullname" . }}-web
+  labels:
+{{ include "mintax.labels" . | indent 4 }}-web
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: {{ include "mintax.name" . }}-web
+    app.kubernetes.io/instance: {{ .Release.Name }}-web

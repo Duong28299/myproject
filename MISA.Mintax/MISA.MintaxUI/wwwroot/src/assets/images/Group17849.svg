@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="svgh" width="20" height="20" viewBox="0 0 20 20">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+      }
+
+      .cls-2 {
+        clip-path: url(#clip-path);
+      }
+
+      .cls-3 {
+        fill: #6f6f6f;
+      }
+    </style>
+    <clipPath id="clip-path">
+      <rect id="SVGID" class="cls-1" width="20" height="20" transform="translate(2.036 2.25)"/>
+    </clipPath>
+  </defs>
+  <g id="Group_17849" data-name="Group 17849" transform="translate(-2.036 -2.25)">
+    <g id="Group_17848" data-name="Group 17848" class="cls-2">
+      <g id="Group_17847" data-name="Group 17847">
+        <path id="Path_31910" data-name="Path 31910" class="cls-3" d="M13.95,10.63a.5.5,0,0,0-.853.353v7.38a.5.5,0,0,0,.5.5h2.077a.5.5,0,0,0,.5-.5v-5.3a.5.5,0,0,0-.146-.354Z"/>
+        <path id="Path_31911" data-name="Path 31911" class="cls-3" d="M11.71,10.521a.5.5,0,0,0-.545.109L9.088,12.707a.5.5,0,0,0-.147.354v5.3a.5.5,0,0,0,.5.5h2.078a.5.5,0,0,0,.5-.5v-7.38A.5.5,0,0,0,11.71,10.521Z"/>
+        <path id="Path_31912" data-name="Path 31912" class="cls-3" d="M5.639,10.63a.5.5,0,0,0-.853.353v7.38a.5.5,0,0,0,.5.5H7.364a.5.5,0,0,0,.5-.5v-5.3a.5.5,0,0,0-.147-.354Z"/>
+        <path id="Path_31913" data-name="Path 31913" class="cls-3" d="M19.53,11.26l-.321-2.127a.5.5,0,0,0-.989.149l.119.786L12.745,5.742a.5.5,0,0,0-.629.014l-3.663,3.1L5.389,5.794a.5.5,0,0,0-.707.707L8.071,9.89a.5.5,0,0,0,.677.028L12.454,6.78l5.231,4.047-.815-.005a.5.5,0,0,0-.006,1l2.169.012h0a.5.5,0,0,0,.494-.574Z"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,10 @@
+﻿[*.cs]
+
+# CS0252: Possible unintended reference comparison; left hand side needs cast
+dotnet_diagnostic.CS0252.severity = suggestion
+
+# CS1591: Missing XML comment for publicly visible type or member
+dotnet_diagnostic.CS1591.severity = none
+
+# CS1572: XML comment has a param tag, but there is no parameter by that name
+dotnet_diagnostic.CS1572.severity = none

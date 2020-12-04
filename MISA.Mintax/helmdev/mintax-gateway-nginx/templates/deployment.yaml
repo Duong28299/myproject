@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mintax-gateway-nginx.fullname" . }}
+  labels:
+    {{- include "mintax-gateway-nginx.labels" . | nindent 4 }}
+spec:
+{{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      {{- include "mintax-gateway-nginx.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+        {{- include "mintax-gateway-nginx.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "mintax-gateway-nginx.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+          - name: http
+            containerPort: 80
+            protocol: TCP
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          - name:  {{ template "mintax-gateway-nginx.fullname" . }}-configmap
+            mountPath: /etc/nginx/nginx.conf
+            subPath: nginx.conf
+            readOnly: true
+          - name:  {{ template "mintax-gateway-nginx.fullname" . }}-configmap
+            mountPath: /etc/nginx/api_gateway.conf
+            subPath: api_gateway.conf
+            readOnly: true
+          - name:  {{ template "mintax-gateway-nginx.fullname" . }}-configmap
+            mountPath: /etc/nginx/api_backends.conf
+            subPath: api_backends.conf
+            readOnly: true
+          - name:  {{ template "mintax-gateway-nginx.fullname" . }}-configmap
+            mountPath: /etc/nginx/api_json_errors.conf
+            subPath: api_json_errors.conf
+            readOnly: true
+          - name:  {{ template "mintax-gateway-nginx.fullname" . }}-configmap
+            mountPath: /etc/nginx/conf.d/default.conf
+            subPath: default.conf
+            readOnly: true
+          - name:  {{ template "mintax-gateway-nginx.fullname" . }}-configmap
+            mountPath: /etc/nginx/conf.d/nginx_status.conf
+            subPath: nginx_status.conf
+            readOnly: true
+      volumes:
+        - name:  {{ template "mintax-gateway-nginx.fullname" . }}-configmap
+          configMap:
+            name:  {{ template "mintax-gateway-nginx.fullname" . }}-configmap # place ConfigMap `nginx-conf` on /etc/nginx
+            items:
+              - key: nginx.conf
+                path: nginx.conf
+              - key: api_gateway.conf
+                path: api_gateway.conf 
+              - key: api_backends.conf
+                path: api_backends.conf
+              - key: api_json_errors.conf
+                path: api_json_errors.conf
+              - key: default.conf
+                path: default.conf
+              - key: nginx_status.conf
+                path: nginx_status.conf
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

@@ -1,0 +1,47 @@
+apiVersion: skaffold/v1
+kind: Config
+
+
+build:
+  artifacts:
+    - image: web
+      context: .
+      docker:
+        dockerfile: MISA.MintaxUI/Dockerfile
+
+    - image: etax
+      context: .
+      docker:
+        dockerfile: Services/ETax/MISA.Mintax.ETax.Api/Dockerfile
+
+    # - image: amisconnector
+      # context: .
+      # docker:
+        # dockerfile: Services/AMISConnector/MISA.iVAN.AMISConnector/Dockerfile
+
+    # - image: directory
+      # context: .
+      # docker:
+        # dockerfile: Services/Directory/MISA.iVAN.Directory/Dockerfile
+
+    # - image: data
+      # context: .
+      # docker:
+        # dockerfile: Services/ImportExport/MISA.ImportExport/Dockerfile
+
+
+deploy:
+  helm:
+    releases:
+      - name: mintax-test
+        namespace: mintax-test
+        chartPath: DeployConfig
+        valuesFiles:
+          - DeployConfig/values-test.yaml
+        values:
+          web.image.repository: web
+          etax.image.repository: etax
+          # amisconnector.image.repository: amisconnector
+          # directory.image.repository: directory
+          # data.image.repository: data
+

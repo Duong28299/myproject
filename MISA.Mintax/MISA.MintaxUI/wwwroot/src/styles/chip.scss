@@ -1,0 +1,72 @@
+
+@import "./variables.scss";
+
+.el-tag.el-tag--info{
+    font-size: 11px;
+    height: 32px;
+    text-align: center;
+    line-height: 32px;
+    padding-left: 12px;
+    padding-right: 12px;
+    border-radius: 5px;
+    display: inline-block;
+    color: $dark-grey;
+    background-color: $bg-color-2;
+    border: none !important;
+}
+
+.el-tag.el-tag--warning{
+    font-size: 11px;
+    height: 32px;
+    text-align: center;
+    line-height: 32px;
+    padding-left: 12px;
+    padding-right: 12px;
+    border-radius: 5px;
+    display: inline-block;
+    color: $purple;
+    background-color: $hover-purple;
+    border: none !important;
+}
+
+.el-tag{
+    font-size: 11px;
+    height: 32px;
+    text-align: center;
+    line-height: 32px;
+    padding-left: 12px;
+    padding-right: 12px;
+    border-radius: 5px;
+    display: inline-block;
+    color: $blue;
+    background-color: $hover-blue;
+    border: none !important;
+}
+
+.el-tag.el-tag--danger{
+    font-size: 11px;
+    height: 32px;
+    text-align: center;
+    line-height: 32px;
+    padding-left: 12px;
+    padding-right: 12px;
+    border-radius: 5px;
+    display: inline-block;
+    color: $red;
+    background-color: $hover-red;
+    border: none !important;
+}
+
+.el-tag.el-tag--success{
+    font-size: 11px;
+    height: 32px;
+    text-align: center;
+    line-height: 32px;
+    padding-left: 12px;
+    padding-right: 12px;
+    border-radius: 5px;
+    display: inline-block;
+    color: $green;
+    background-color: $hover-green;
+    border: none !important;
+}

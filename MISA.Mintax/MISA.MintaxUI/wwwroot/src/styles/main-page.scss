@@ -1,0 +1,109 @@
+@import "@/styles/typo.scss";
+@import "@/styles/variables.scss";
+@mixin main-page {
+    .el-button.is-disabled:hover {
+      color: #C0C4CC !important;
+      cursor: not-allowed;
+      background-image: none;
+      background-color: $white !important;
+      border-color: $white-bordertable;
+      img{
+        opacity: 0.3 !important;
+      }
+    }
+    .el-button.is-disabled {
+      img{
+        opacity: 0.3 !important;
+      }
+    }
+    .tbl-summary .el-table__body-wrapper{
+      height: calc(100% - 53px) !important;
+    }
+    height: 100%;
+    padding-top: 24px;
+    .btn-white3-onlyicon{
+      justify-content: center !important;
+      display: flex !important;
+    }
+    .btn-white3-onlyicon .icon{
+      width: 20px !important;
+      height: 20px !important;
+      margin-right: 0px !important;
+    }
+    .page-header {
+      margin: 0px 0px 24px 0px;
+    
+      .page-title {
+        h1 {
+          margin: 0;
+        }
+  
+        .button-container {
+          position: absolute;
+          right: 0;
+        }
+      }
+    }
+    .temporary-mode-btn{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transform: translate(-50%, -50%);
+    }
+    .el-table__body-wrapper {
+      height: calc(100% - 52px);
+    }
+  
+    .group-btn-delete {
+      margin-left: 8px;
+      display: flex;
+      align-items: center;
+    }
+    .deselect-all {
+      color: $hover-primary;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .filter-bar {
+      height: 40px;
+      display: flex;
+      margin-bottom: 16px;
+      
+      .el-input__inner {
+        margin-right: 16px;
+      }
+
+      #date-picker-none-white{
+        border-color: transparent;
+      }
+    }
+  
+    .data-table {
+      height: calc(100% - 120px);
+
+      .el-loading-parent--relative{
+        height: 100%;
+
+        .el-loading-mask{
+            opacity: 1;
+        }
+      }
+    }
+  
+    .main-empty {
+      width: 395px;
+      height: 368px;
+      margin: auto;
+      display: flex;
+      flex-flow: wrap;
+      justify-content: center;
+      position: absolute;
+      top: calc(50% - 184px);
+      left: calc(50% - 200px);
+    }
+  }
