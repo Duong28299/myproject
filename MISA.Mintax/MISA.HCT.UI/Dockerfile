@@ -1,0 +1,35 @@
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
+WORKDIR /src
+COPY ["MISA.HCT.UI/MISA.HCT.UI.csproj", "MISA.HCT.UI/"]
+RUN dotnet restore "MISA.HCT.UI/MISA.HCT.UI.csproj"
+COPY . .
+WORKDIR "/src/MISA.HCT.UI"
+RUN dotnet build "MISA.HCT.UI.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "MISA.HCT.UI.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "MISA.HCT.UI.dll"]
+
+# Build Vue SPA App
+FROM node:latest as build-stage
+WORKDIR /app
+COPY MISA.HCT.UI/wwwroot/package*.json ./
+RUN npm install
+ADD ./MISA.HCT.UI/wwwroot ./
+RUN npm run build
+
+FROM nginx as production-stage
+WORKDIR /app
+COPY --from=build-stage /app/dist /app
+COPY /MISA.HCT.UI/wwwroot/nginx.conf /etc/nginx/nginx.conf
